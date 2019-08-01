@@ -32,10 +32,10 @@ of each variable
 
 3) mergedatasets: This function assumes the data is extracted into the current 
 directory.
-    # 1) Reads the features file for variable names
-    # 2) Reads the training data & subjects and combines into a data frame
-    # 3) Reads the test data & subjects and combines into a data frame
-    # 4) Combines the training and test data frames into one
+    * Reads the features file for variable names
+    * Reads the training data & subjects and combines into a data frame
+    * Reads the test data & subjects and combines into a data frame
+    * Combines the training and test data frames into one
     
 4) extractmeanandstd: This function extracts the subject, mean & standard deviation columns 
 from the merged dataset.
