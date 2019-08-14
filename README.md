@@ -34,6 +34,7 @@ each variable for each activity and each subject
 3. mergedatasets: This function assumes the data is extracted into the current 
 directory.
     * Reads the features file for variable names
+    * Reads the activity lables file for the same
     * Reads the training data, activities & subjects and combines into a data frame
     * Reads the test data, activities & subjects and combines into a data frame
     * Combines the training and test data frames into one
