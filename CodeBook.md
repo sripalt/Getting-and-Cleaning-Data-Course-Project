@@ -1,12 +1,12 @@
 This data contains 180 observations of 81 variables. 
 Each observation contains the following variables.
-"X"", "Y"" and "subject" files are combined into one observation and only the variables containing "mean" and "std"
+"X"", "Y"" and "subject" files are combined into one observation and the variables containing "mean" and "std"
 are extracted from each observation. The variable names are cleaned to remove special characters.
 
 subject                     : int  id of the subject
 activity                    : Factor w/ 6 levels "LAYING","SITTING","STANDING","WALKING","WALKING_DOWNSTAIRS","WALKING_UPSTAIRS"
-tbodyaccmeanx               : num  
-tbodyaccmeany               : num  
+tbodyaccmeanx               : num
+tbodyaccmeany               : num
 tbodyaccmeanz               : num  
 tbodyaccstdx                : num  
 tbodyaccstdy                : num  
