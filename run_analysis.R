@@ -26,10 +26,12 @@ downloadandextract <- function() {
 
 
 # This function assumes the data is extracted into the current directory.
+
 # 1) Reads the features file for variable names
-# 2) Reads the training data & subjects and combines into a data frame
-# 3) Reads the test data & subjects and combines into a data frame
-# 4) Combines the training and test data frames into one
+# 2) Reads the activity lables file for the same
+# 3) Reads the training data, activities & subjects and combines into a data frame
+# 4) Reads the test data, activities & subjects and combines into a data frame
+# 5) Combines the training and test data frames into one
 
 mergedatasets <- function() {
     features <- read.table("UCI HAR Dataset/features.txt")
@@ -52,7 +54,7 @@ mergedatasets <- function() {
     combined
 }
 
-# This function extracts the subject, mean & standard deviation columns
+# This function extracts the subject, activity code, mean & standard deviation columns
 # from the merged dataset
 
 extractmeanandstd <- function(dataset) {
