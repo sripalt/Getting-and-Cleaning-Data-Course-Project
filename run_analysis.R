@@ -3,17 +3,17 @@
 
 getandcleananalysisdata <- function() {
     downloadandextract()
-    finaldf <- mergedatasets() %>% extractmeanandstd() %>% cleannames()
+    finaldf <- mergedatasets() %>% extractmeanandstd() %>% cleannames() %>% 
+        getfinaldatawithmean()
     finaldf
 }
 
 # This function creates a new tidy dataset from the merged dataset
 # with the average of each variable for each activity and each subject
 
-gettidydatawithmean <- function(dataset) {
-    dataset1 <- aggregate(dataset[,names(dataset) != "subject"], list(subject=dataset$subject), mean)
-    dataset1 <- gather(dataset1, "variablename", "mean", -subject)
-    dataset1
+getfinaldatawithmean <- function(dataset) {
+    finaldataset <- dataset %>% group_by(subject, activity) %>% summarise_all(mean)
+    finaldataset
 }
 
 # This function downloads the zip file and extracts to the current directory
@@ -35,15 +35,20 @@ mergedatasets <- function() {
     features <- read.table("UCI HAR Dataset/features.txt")
     vnames <- features$V2
 
-    train_data <- read.table("UCI HAR Dataset/train/X_train.txt", col.names = vnames)
+    activity_lables <- read.table("UCI HAR Dataset/activity_labels.txt")
+
+    train_x_data <- read.table("UCI HAR Dataset/train/X_train.txt", col.names = vnames)
+    train_y_data <- read.table("UCI HAR Dataset/train/y_train.txt", col.names = c("code"))
     train_subject <- read.table("UCI HAR Dataset/train/subject_train.txt", col.names = c("subject"))
-    train_final <- cbind(train_subject, train_data)
+    train_final <- cbind(train_subject, train_y_data, train_x_data)
     
-    test_data <- read.table("UCI HAR Dataset/test/X_test.txt", col.names = vnames)
+    test_x_data <- read.table("UCI HAR Dataset/test/X_test.txt", col.names = vnames)
+    test_y_data <- read.table("UCI HAR Dataset/test/y_test.txt", col.names = c("code"))
     test_subject <- read.table("UCI HAR Dataset/test/subject_test.txt", col.names = c("subject"))
-    test_final <- cbind(test_subject, test_data)
+    test_final <- cbind(test_subject, test_y_data, test_x_data)
     
     combined <- rbind(train_final, test_final)
+    combined$code <- activity_lables[combined$code, 2]
     combined
 }
 
@@ -51,14 +56,14 @@ mergedatasets <- function() {
 # from the merged dataset
 
 extractmeanandstd <- function(dataset) {
-    extracted <- dataset[, grepl("mean|std|subject", names(dataset))]
+    extracted <- dataset[, grepl("mean|std|subject|code", names(dataset))]
     extracted
 }
 
 # This function cleans the variable names of the extracted dataset.
 
 cleannames <- function(dataset) {
-    dataset1 <- dataset
-    colnames(dataset1) <- gsub("\\.", "", tolower(names(dataset1)))
-    dataset1
+    colnames(dataset) <- gsub("\\.", "", tolower(names(dataset)))
+    colnames(dataset)[2] <- "activity"
+    dataset
 }
